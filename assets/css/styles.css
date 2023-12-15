@@ -1,0 +1,32 @@
+div, footer{
+    outline: 1px solid blue;
+}
+
+header{
+    height: 10vh;
+    text-align: center;
+    font-size: 2em;
+}
+
+#flex-divs{
+    height: 55vh;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ads{
+    width: 15%;
+}
+
+#play-area{
+    width: 60%;
+}
+
+
+#game-instructions{
+    height: 15vh;
+}
+
+footer{
+    height: 10vh;
+}
