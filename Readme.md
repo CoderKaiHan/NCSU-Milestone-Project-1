@@ -24,6 +24,12 @@ Todo:
 -add sound effect
 -add buttons & menu, etc
 
+Rules:
+(Simple version)
+-Players take turns shooting arrows, and the first to hit the opponent wins.
+(Dificult version)
+-Players shoot arrows, and the first one to hit the opponent wins.
+
 Assets:
 -2 characters
 -2 bows
