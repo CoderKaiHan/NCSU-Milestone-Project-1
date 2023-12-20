@@ -10,12 +10,12 @@ Todo:
 -set character and npc
 -set bow and arrow
 -release arrow
--adjust arrow power
 -adjust arrow angle
 
 (Difficult version)
 -arrow hit feedback
 -make it two-players
+-adjust arrow power
 -add visual display of arrow angle and power
 -allow player mobility 
 
