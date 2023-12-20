@@ -1,4 +1,6 @@
-const playArea = document.querySelector('#play-area')
+const playArea = document.querySelector('#play-area');
+playArea.style.background ="url(/assets/Images/bg001.png) center/cover no-repeat";
+
 
 function createCharacter (src,scaleX,position,top,left,zIndex){
     const character = document.createElement('img');
@@ -29,9 +31,9 @@ function moveItem (item,right,down,scaleX,rotate){
     item.style.transform = `translate(${right}px, ${down}px) scaleX(${scaleX}) rotate(${rotate}deg)`
 }
 
-const character1 = createCharacter('/assets/Images/archer light.png',1,'absolute','85%','10%','-1')
+const character1 = createCharacter('/assets/Images/archer light.png',1,'absolute','85%','10%','1')
 
-const character2 = createCharacter('/assets/Images/archer_elf.png',-1,'absolute','85%','80%','-1')
+const character2 = createCharacter('/assets/Images/archer_elf.png',-1,'absolute','85%','80%','1')
 
 const bow1 = createItem('/assets/Images/Bow and Arrow Set/Png/Small/Bow3.png','absolute','20px','40px','85%','10%','1')
 
@@ -45,20 +47,3 @@ moveItem(bow1,45,2,1,0)
 moveItem(bow2,0,0,-1,0)
 moveItem(arrow1,45,-3,1,90)
 moveItem(arrow2,10,-4,-1,90)
-
-
-const canvas = document.getElementById('myCanvas');
-const ctx =canvas.getContext('2d');
-
-let playAni = false;
-
-function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-}
-
-animate();
-
-canvas.addEventListener("click",()=>{
-    playAni = true;
-});
