@@ -1,26 +1,30 @@
+body{
+    margin:20px;
+}
+
 div, footer{
     outline: 1px solid blue;
 }
 
 header{
-    height: 10vh;
+    height: 100px;
     text-align: center;
     font-size: 2em;
 }
 
 #flex-divs{
-    height: 55vh;
+    height: 600px;
     display: flex;
     justify-content: space-evenly;
 }
 
 .ads{
-    width: 15%;
+    width: 250px;
 }
 
 #play-area{
-    width: 60%;
-    height: 100%;
+    width: 900px;
+    height: 600px;
     position: relative;
     background-image: url(/assets/Images/bg001.png);
     background-size: 100% 100%;
