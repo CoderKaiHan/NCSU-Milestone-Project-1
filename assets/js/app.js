@@ -4,21 +4,81 @@ const playArea = document.querySelector('#play-area');
 const player1 = document.getElementById('elf-archer');
 
 
-//player control archer function
+//player1 control function
 document.addEventListener('keydown', function(event) {
-    // Get the current position
-    const currentPosition = parseInt(player1.style.top) || 0;
-
-    // Adjust the position based on the key pressed
+    // Get player1 current position
+    const player1CurrentPosition = parseInt(player1.style.top) || 0;
+    
+    // Adjust the position based on the key pressed and restrict it within the play area
+    const moveAmount = 10;
+    let player1NewPosition;
     switch(event.key) {
-        case 'ArrowUp':
-            player1.style.top = `${currentPosition - 1}%`;
+        case 'w':
+            event.preventDefault();
+            player1NewPosition= Math.max(player1CurrentPosition - moveAmount, -240)
             break;
-        case 'ArrowDown':
-            player1.style.top = `${currentPosition + 1}%`;
+        case 's':
+            event.preventDefault();
+            player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 250);
             break;
     }
+    player1.style.top = player1NewPosition + 'px'
 });
+
+//player1 release arrow function
+document.addEventListener('keydown',function(event){
+    //Get player1 current top position
+    const player1CurrentTop = parseInt(player1.style.top);
+    const player1CurrentLeft = parseInt(player1.style.left);
+
+    console.log('player1CurrentTop:', player1CurrentTop);
+    console.log('player1CurrentLeft:', player1CurrentLeft);
+
+
+    //Get player1 arrow current location
+    const arrow1CurrentTop = player1CurrentTop -10; 
+    const arrow1CurrentLeft = player1CurrentLeft + 10;
+    
+    let arrow1;
+
+    if(event.key ===' '){
+        arrow1 = document.createElement('img');
+        arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
+        arrow1.style.position ='absolute';
+        arrow1.style.top = arrow1CurrentTop + 'px';
+        arrow1.style.left = arrow1CurrentLeft + 'px';
+
+        console.log('arrow1CurrentTop:', arrow1CurrentTop);
+        console.log('arrow1CurrentLeft:', arrow1CurrentLeft);
+    }
+
+    if(arrow1){
+        playArea.appendChild(arrow1);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //set playArea background image
 // playArea.style.background ="url(/assets/Images/bg001.png) no-repeat";

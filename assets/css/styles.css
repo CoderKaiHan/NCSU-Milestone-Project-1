@@ -1,5 +1,6 @@
 body{
     margin:20px;
+    width:1500px;
 }
 
 div, footer{
@@ -31,19 +32,19 @@ header{
     display: flex;
 }
 
-.archers{
-    width:10%;
-    height:10%;
-    display: inline-block;
+.players{
+    width:60px;
+    height:60px;
+    /* display: inline-block; */
 }
 
-#elf-archer{
-    margin:30% 0 0 10%;
+#player1{
+    margin:240px 0 0 100px;
     position: absolute;
 }
 
-#golden-archer{
-    margin:45% 0 0 60%;
+#player2{
+    margin:240px 0 0 740px;
     animation: goldenFloating 3s ease-in-out infinite alternate;
 }
 
@@ -67,10 +68,10 @@ header{
         transform: scaleX(-1) translateY(0);
     }
     25%{
-        transform: scaleX(-1) translateY(-500%);
+        transform: scaleX(-1) translateY(0);
     }
     75%{
-        transform: scaleX(-1) translateY(300%);
+        transform: scaleX(-1) translateY(0);
     }
     to {
         transform: scaleX(-1) translateY(0);
@@ -78,9 +79,9 @@ header{
 }
 
 #game-instructions{
-    height: 15vh;
+    height: 200px;
 }
 
 footer{
-    height: 10vh;
+    height: 150px;
 }
