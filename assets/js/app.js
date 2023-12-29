@@ -1,8 +1,10 @@
 //define a playArea variable
 const playArea = document.querySelector('#play-area');
 
-const player1 = document.getElementById('elf-archer');
+const player1 = document.getElementById('player1');
 
+player1.style.top = '240px';
+player1.style.left = '100px';
 
 //player1 control function
 document.addEventListener('keydown', function(event) {
@@ -15,11 +17,11 @@ document.addEventListener('keydown', function(event) {
     switch(event.key) {
         case 'w':
             event.preventDefault();
-            player1NewPosition= Math.max(player1CurrentPosition - moveAmount, -240)
+            player1NewPosition= Math.max(player1CurrentPosition - moveAmount, 0)
             break;
         case 's':
             event.preventDefault();
-            player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 250);
+            player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 540);
             break;
     }
     player1.style.top = player1NewPosition + 'px'
@@ -30,24 +32,26 @@ document.addEventListener('keydown',function(event){
     //Get player1 current top position
     const player1CurrentTop = parseInt(player1.style.top);
     const player1CurrentLeft = parseInt(player1.style.left);
-
+    //check player1 location
     console.log('player1CurrentTop:', player1CurrentTop);
     console.log('player1CurrentLeft:', player1CurrentLeft);
 
 
     //Get player1 arrow current location
-    const arrow1CurrentTop = player1CurrentTop -10; 
-    const arrow1CurrentLeft = player1CurrentLeft + 10;
+    const arrow1CurrentTop = player1CurrentTop + 12; 
+    const arrow1CurrentLeft = player1CurrentLeft + 40;
     
     let arrow1;
 
-    if(event.key ===' '){
+    if(event.key ==='b'){
         arrow1 = document.createElement('img');
         arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
         arrow1.style.position ='absolute';
         arrow1.style.top = arrow1CurrentTop + 'px';
         arrow1.style.left = arrow1CurrentLeft + 'px';
-
+        arrow1.style.width = '60px';
+        arrow1.style.height = '10px';
+        //check arrow location
         console.log('arrow1CurrentTop:', arrow1CurrentTop);
         console.log('arrow1CurrentLeft:', arrow1CurrentLeft);
     }
@@ -56,7 +60,6 @@ document.addEventListener('keydown',function(event){
         playArea.appendChild(arrow1);
     }
 });
-
 
 
 
