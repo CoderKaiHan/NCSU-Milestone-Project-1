@@ -35,33 +35,20 @@ header{
 .players{
     width:60px;
     height:60px;
-    /* display: inline-block; */
+    position: absolute;
+    
 }
 
 #player1{
-    margin:240px 0 0 100px;
-    position: absolute;
+    top:240px;
+    left:100px;
 }
 
 #player2{
-    margin:240px 0 0 740px;
+    top:240px;
+    right:100px;
     animation: goldenFloating 3s ease-in-out infinite alternate;
 }
-
-/* @keyframes elfFloating {
-    from {
-        transform: translateY(0);
-    }
-    20%{
-        transform: translateY(-100%);
-    }
-    50%{
-        transform: translateY(400%);
-    }
-    to {
-        transform: translateY(-300%);
-    }
-} */
 
 @keyframes goldenFloating {
     from {
