@@ -39,7 +39,7 @@ document.addEventListener('keydown',function(event){
 
     //Get player1 arrow current location
     const arrow1CurrentTop = player1CurrentTop + 12; 
-    const arrow1CurrentLeft = player1CurrentLeft + 40;
+    let arrow1CurrentLeft = player1CurrentLeft + 40;
     
     let arrow1;
 
@@ -48,18 +48,35 @@ document.addEventListener('keydown',function(event){
         arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
         arrow1.style.position ='absolute';
         arrow1.style.top = arrow1CurrentTop + 'px';
-        arrow1.style.left = arrow1CurrentLeft + 'px';
+        // arrow1.style.left = arrow1CurrentLeft + 'px';
         arrow1.style.width = '60px';
         arrow1.style.height = '10px';
         //check arrow location
         console.log('arrow1CurrentTop:', arrow1CurrentTop);
         console.log('arrow1CurrentLeft:', arrow1CurrentLeft);
+
+        function moveArrow(){
+            if(arrow1CurrentLeft < 800){
+                arrow1CurrentLeft +=50;
+                arrow1.style.left = arrow1CurrentLeft + 'px';
+                setTimeout(moveArrow, getShootSpeed)
+            }
+        }
+
+        moveArrow()
+
+        
     }
 
     if(arrow1){
         playArea.appendChild(arrow1);
     }
 });
+
+//arrow speed
+function getShootSpeed(){
+    return Math.floor(Math.random());
+}
 
 
 
