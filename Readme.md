@@ -1,7 +1,8 @@
 
 Game idea: 
 -Two-player archery dueling game
--Player can can maneuver, adjust arrow power and angle, and release arrows by using keyboard & mouse.
+<!-- -Player can can maneuver, adjust arrow power and angle, and release arrows by using keyboard & mouse. -->
+-Player can can maneuver and release arrows by using keyboard
 -Simple version & difficult version
 
 Todo:
@@ -10,13 +11,13 @@ Todo:
 -set character and npc
 -set bow and arrow
 -release arrow
--adjust arrow angle
+<!-- -adjust arrow angle -->
 
 (Difficult version)
 -arrow hit feedback
 -make it two-players
--adjust arrow power
--add visual display of arrow angle and power
+<!-- -adjust arrow power
+-add visual display of arrow angle and power -->
 -allow player mobility 
 
 (Others)
@@ -26,9 +27,10 @@ Todo:
 
 Rules:
 (Simple version)
--Players take turns shooting arrows, and the first to hit the opponent wins.
+-Players moving up and down and shooting the target objects. The one who get more points within specific time wins.
+<!-- -Players take turns shooting arrows, and the first to hit the opponent wins. -->
 (Dificult version)
--Players shoot arrows, and the first one to hit the opponent wins.
+-Players shoot arrows to each other, the one who defeats the opponent wins.
 
 Assets:
 -2 characters
@@ -36,5 +38,5 @@ Assets:
 -2 arrows
 -1 standing block
 -backgournd images and music
--othet objects
+-other objects
 -riding animals & machines
