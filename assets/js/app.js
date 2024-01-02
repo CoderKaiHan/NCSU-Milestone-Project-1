@@ -12,7 +12,7 @@ document.addEventListener('keydown', function(event) {
     const player1CurrentPosition = parseInt(player1.style.top) || 0;
     
     // Adjust the position based on the key pressed and restrict it within the play area
-    const moveAmount = 10;
+    const moveAmount = 20;
     let player1NewPosition;
     switch(event.key) {
         case 'w':
@@ -22,7 +22,7 @@ document.addEventListener('keydown', function(event) {
         case 's':
             event.preventDefault();
             player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 540);
-            break;
+            break; 
     }
     player1.style.top = player1NewPosition + 'px'
 });
@@ -59,7 +59,7 @@ document.addEventListener('keydown',function(event){
             if(arrow1CurrentLeft < 800){
                 arrow1CurrentLeft +=50;
                 arrow1.style.left = arrow1CurrentLeft + 'px';
-                setTimeout(moveArrow, getShootSpeed)
+                setTimeout(moveArrow, getShootSpeed())
             }
         }
 
@@ -75,9 +75,56 @@ document.addEventListener('keydown',function(event){
 
 //arrow speed
 function getShootSpeed(){
-    return Math.floor(Math.random());
+    return Math.floor(Math.random()*40);
 }
 
+
+//Game Start Button && Count down numbers
+const startButton = document.getElementById('start-button')
+
+startButton.addEventListener('click',function(){
+    startButton.style.display='none';
+
+    const startTimer = document.createElement('div');
+    startTimer.id = 'start-timer';
+    playArea.appendChild(startTimer);
+
+    const countdownNumbers = ['3','2','1','GO!'];
+
+    function updateCountdown(index){
+        startTimer.textContent = countdownNumbers[index];
+    }
+    function startCountdown(index){
+        if(index<=3){
+            updateCountdown(index);
+            setTimeout(function(){
+                startCountdown(index+1);
+            },1000);
+        }else{
+            startTimer.style.display = 'none';
+            appendTargets();
+        }
+    }
+    startCountdown(0);
+
+})
+
+
+//Append Targets 
+function appendTargets (){
+    let targets = document.createElement('img');
+    targets.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Bow1.png';
+
+    const maxLeft = 700;
+    const minLeft = 200;
+    const randomLeft = Math.floor(Math.random()*(maxLeft - minLeft + 1) + minLeft);
+    
+    targets.style.position = 'absolute';
+    targets.style.left = randomLeft + 'px';
+    targets.style.top = Math.floor(Math.random() * (playArea.clientHeight - targets.height)) + 'px';
+
+    playArea.appendChild(targets)
+}
 
 
 
