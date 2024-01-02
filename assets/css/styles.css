@@ -30,6 +30,25 @@ header{
     background-image: url(/assets/Images/bg001.png);
     background-size: 100% 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-button{
+    height:100px;
+    width: 200px;
+    font-size: 2em;
+    font-weight: 700;
+    
+}
+
+#start-timer{
+    height:100px;
+    width: 200px;
+    font-size: 5em;
+    font-weight: 700;
+    text-align: center;
+    color:red;
 }
 
 .players{
