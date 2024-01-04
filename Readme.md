@@ -28,7 +28,6 @@ Todo:
 Rules:
 (Simple version)
 -Players moving up and down and shooting the target objects. The one who get more points within specific time wins.
-<!-- -Players take turns shooting arrows, and the first to hit the opponent wins. -->
 (Dificult version)
 -Players shoot arrows to each other, the one who defeats the opponent wins.
 
