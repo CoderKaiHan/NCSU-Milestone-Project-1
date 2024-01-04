@@ -60,7 +60,7 @@ document.addEventListener('keydown',function(event){
     
     let arrow1;
 
-    if(event.key ==='b'){
+    if(event.key ==='d'){
         arrow1 = document.createElement('img');
         arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
         arrow1.style.position ='absolute';
@@ -70,7 +70,7 @@ document.addEventListener('keydown',function(event){
 
         function moveArrow(){
             if(arrow1CurrentLeft < 640){
-                arrow1CurrentLeft +=50;
+                arrow1CurrentLeft +=30;
                 arrow1.style.left = arrow1CurrentLeft + 'px';
                 arrow1DectectsTargets(arrow1,arrow1CurrentLeft,arrow1CurrentTop); 
                 setTimeout(moveArrow, getShootSpeed())
@@ -92,6 +92,45 @@ function getShootSpeed(){
     return Math.floor(Math.random()*40);
 }
 
+//player2 release arrow function
+document.addEventListener('keydown',function(event){
+    //Get player1 current top position
+    const player2CurrentTop = parseInt(player2.style.top);
+    const player2CurrentLeft = parseInt(player2.style.left);
+
+
+    //Get player1 arrow current location
+    const arrow2CurrentTop = player2CurrentTop + 12; 
+    let arrow2CurrentLeft = player2CurrentLeft - 40;
+    
+    let arrow2;
+
+    if(event.key ==='ArrowLeft'){
+        arrow2 = document.createElement('img');
+        arrow2.src = '/assets/Images/ornamented_arrow.png';
+        arrow2.style.position ='absolute';
+        arrow2.style.top = arrow2CurrentTop + 'px';
+        arrow2.style.width = '80px';
+        arrow2.style.height = '15px';
+
+        function moveArrow(){
+            if(arrow2CurrentLeft > 160){
+                arrow2CurrentLeft -=30;
+                arrow2.style.left = arrow2CurrentLeft + 'px';
+                arrow2DectectsTargets(arrow2,arrow2CurrentLeft,arrow2CurrentTop); 
+                setTimeout(moveArrow, getShootSpeed())
+            }else{
+                arrow2.style.display = 'none';
+            }
+        }
+
+        moveArrow()       
+    }
+
+    if(arrow2){
+        playArea.appendChild(arrow2);
+    }
+});
 
 //Game Start Button && Count down numbers
 const startButton = document.getElementById('start-button')
@@ -161,6 +200,25 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
             targetsArray.splice(i,1);
             playArea.removeChild(targets);
             arrow1.style.display = 'none';
+            appendTargets();
+;    }
+  }
+}
+
+//Arrow 2 detects targets
+function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
+    for (let i = 0; i < targetsArray.length; i++){
+        const targets = targetsArray[i];
+        const targetsLeft = parseInt(targets.style.left);
+        const targetsTop = parseInt(targets.style.top);
+        const targetsWidth = parseInt(targets.style.width);
+        const targetsHeight = parseInt(targets.style.height);
+        const targetsRight = targetsLeft + targetsWidth;
+
+        if (arrow2Left <= targetsRight && arrow2Left >= targetsLeft && arrow2Top >= targetsTop && arrow2Top <= targetsTop + targetsHeight){  
+            targetsArray.splice(i,1);
+            playArea.removeChild(targets);
+            arrow2.style.display = 'none';
             appendTargets();
 ;    }
   }
