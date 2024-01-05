@@ -2,6 +2,11 @@
 const playArea = document.querySelector('#play-area');
 const player1 = document.getElementById('player1');
 const player2 = document.getElementById('player2')
+let player1Score=  0;
+let player2Score = 0;
+let targetsPoints;
+
+const targetsPointsDisplay = document.createElement('div');
 
 player1.style.top = '240px';
 player1.style.left = '100px';
@@ -10,7 +15,7 @@ player2.style.left = '740px';
 
 
 //players control function
-document.addEventListener('keydown', function(event) {
+function playersControls (event) {
     // Get player1 current position
     const player1CurrentPosition = parseInt(player1.style.top) || 0;
     
@@ -45,10 +50,12 @@ document.addEventListener('keydown', function(event) {
             break; 
     }
     player2.style.top = player2NewPosition + 'px';
-});
+}
+
+document.addEventListener('keydown', playersControls);
 
 //player1 release arrow function
-document.addEventListener('keydown',function(event){
+function releaseArrow1(event){
     //Get player1 current top position
     const player1CurrentTop = parseInt(player1.style.top);
     const player1CurrentLeft = parseInt(player1.style.left);
@@ -85,7 +92,8 @@ document.addEventListener('keydown',function(event){
     if(arrow1){
         playArea.appendChild(arrow1);
     }
-});
+}
+document.addEventListener('keydown', releaseArrow1);
 
 //arrow speed
 function getShootSpeed(){
@@ -93,13 +101,13 @@ function getShootSpeed(){
 }
 
 //player2 release arrow function
-document.addEventListener('keydown',function(event){
+function releaseArrow2 (event){
     //Get player1 current top position
     const player2CurrentTop = parseInt(player2.style.top);
     const player2CurrentLeft = parseInt(player2.style.left);
 
 
-    //Get player1 arrow current location
+    //Get player2 arrow current location
     const arrow2CurrentTop = player2CurrentTop + 12; 
     let arrow2CurrentLeft = player2CurrentLeft - 40;
     
@@ -130,13 +138,16 @@ document.addEventListener('keydown',function(event){
     if(arrow2){
         playArea.appendChild(arrow2);
     }
-});
+}
+document.addEventListener('keydown', releaseArrow2);
 
 //Game Start Button && Count down numbers
 const startButton = document.getElementById('start-button')
 
 startButton.addEventListener('click',function(){
     startButton.style.display='none';
+    displayScore();
+
 
     const startTimer = document.createElement('div');
     startTimer.id = 'start-timer';
@@ -155,36 +166,57 @@ startButton.addEventListener('click',function(){
             },1000);
         }else{
             startTimer.style.display = 'none';
+            displayTimer();
             appendTargets();
         }
     }
     startCountdown(0);
-
 })
 
+// Generate targets points
+function generateTargetsPoints () {
+    targetsPoints = Math.floor(Math.random() * 1000);
+}
 
 //Append Targets 
 const targetsArray = [];
 
 function appendTargets (){
     let targets = document.createElement('img');
-    targets.src = '/assets/Images/Targets/xbullet.png';
+    targets.src = '/assets/Images/Targets/flames.gif';
 
     const maxLeft = 700;
     const minLeft = 200;
     const randomLeft = Math.floor(Math.random()*(maxLeft - minLeft + 1) + minLeft);
+    generateTargetsPoints();
     
     targets.style.position = 'absolute';
-    targets.style.width = '30px';
-    targets.style.height = '30px';
+    targets.style.width = '50px';
+    targets.style.height = '50px';
     targets.style.left = randomLeft + 'px';
     targets.style.top = Math.floor(Math.random() * (playArea.clientHeight - targets.height)) + 'px';
 
-    playArea.appendChild(targets)
+    const targetsLeft = parseInt(targets.style.left);
+    const targetsTop = parseInt(targets.style.top);
+    const targetsWidth = parseInt(targets.style.width);
+    const targetsHeight = parseInt(targets.style.height);
 
+    targetsPointsDisplay.style.position = 'absolute';
+    targetsPointsDisplay.style.width = targetsWidth+ 'px';
+    targetsPointsDisplay.style.height = targetsHeight + 'px';
+    targetsPointsDisplay.style.left = targetsLeft + 'px';
+    targetsPointsDisplay.style.top = targetsTop + targetsHeight + 'px';
+    targetsPointsDisplay.textContent = targetsPoints;
+    targetsPointsDisplay.style.fontSize = '2em';
+    targetsPointsDisplay.style.color = 'green';
+    targetsPointsDisplay.style.display = 'inline';
+
+    playArea.appendChild(targets);
     targetsArray.push(targets);
 
-    return targets;
+    playArea.appendChild(targetsPointsDisplay);
+
+    // return targets;
 }
 
 //Arrow 1 detects targets
@@ -197,10 +229,17 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
         const targetsHeight = parseInt(targets.style.height);
 
         if (arrow1Left + 60 >= targetsLeft && arrow1Left <= targetsLeft + targetsWidth && arrow1Top >= targetsTop && arrow1Top <= targetsTop + targetsHeight){  
+            player1Score = player1Score + targetsPoints;
             targetsArray.splice(i,1);
             playArea.removeChild(targets);
             arrow1.style.display = 'none';
+            targetsPointsDisplay.style.display = 'none';
             appendTargets();
+            
+            
+            displayScore();
+            console.log(player1Score)
+
 ;    }
   }
 }
@@ -216,15 +255,75 @@ function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
         const targetsRight = targetsLeft + targetsWidth;
 
         if (arrow2Left <= targetsRight && arrow2Left >= targetsLeft && arrow2Top >= targetsTop && arrow2Top <= targetsTop + targetsHeight){  
+            player2Score = player2Score + targetsPoints;
             targetsArray.splice(i,1);
             playArea.removeChild(targets);
             arrow2.style.display = 'none';
+            targetsPointsDisplay.style.display = 'none';
             appendTargets();
+
+            displayScore();
+            console.log(player2Score)
 ;    }
   }
 }
 
+//Display Players score
+function displayScore () {
+    const player1ScoreBoard = document.getElementById('score-board1')
+    const player2ScoreBoard = document.getElementById('score-board2')
 
+    player1ScoreBoard.textContent = player1Score;
+    player1ScoreBoard.style.fontSize = '3em';
+    player1ScoreBoard.style.textAlign = 'center';
+    player1ScoreBoard.style.lineHeight = '100px';
+    player1ScoreBoard.style.color = 'white';
+    player1ScoreBoard.style.backgroundColor = 'black';
+    player2ScoreBoard.textContent = player2Score;
+    player2ScoreBoard.style.fontSize = '3em';
+    player2ScoreBoard.style.textAlign = 'center';
+    player2ScoreBoard.style.lineHeight = '100px';
+    player2ScoreBoard.style.color = 'white';
+    player2ScoreBoard.style.backgroundColor = 'black';
+    // playArea.appendChild(player1ScoreBoard)
+    // playArea.appendChildss(player2ScoreBoard)
+
+}
+
+//Game timer function
+
+function displayTimer (){
+    let timeInSeconds = 60;
+    const gameTimer = document.getElementById('game-timer');
+
+    function updateTimer() {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+
+        gameTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        
+        // Decrease the time by 1 second
+        timeInSeconds--;
+
+        // Check if the timer has reached 0
+        if (timeInSeconds < 0) {
+            clearInterval(timerInterval); // Stop the timer when it reaches 0
+            gameTimer.textContent = 'Time up!';
+            gameTimer.style.fontSize = '3em';
+            disableFunctions();
+        }
+    }
+
+    // Update the timer every second
+    const timerInterval = setInterval(updateTimer, 1000);
+}
+
+//disable function
+function disableFunctions () {
+    document.removeEventListener('keydown', playersControls);
+    document.removeEventListener('keydown',releaseArrow1);
+    document.removeEventListener('keydown',releaseArrow2);
+}
 
 
 
