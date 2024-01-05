@@ -30,25 +30,48 @@ header{
     background-image: url(/assets/Images/bg001.png);
     background-size: 100% 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
 #start-button{
+    position: absolute;
     height:100px;
     width: 200px;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
     font-size: 2em;
     font-weight: 700;
     
 }
 
 #start-timer{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
     height:100px;
     width: 200px;
     font-size: 5em;
     font-weight: 700;
     text-align: center;
     color:red;
+}
+
+.score-board{
+    border:1px solid purple;
+    width: 150px;
+    height: 100px; 
+}
+
+#game-timer{
+    border:2px dashed orange;
+    width: 200px;
+    height: 80px; 
+    background-color: black;
+    color: red;
+    font-size: 4em;
+    text-align:center;
 }
 
 .players{
