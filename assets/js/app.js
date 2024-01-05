@@ -5,6 +5,9 @@ const player2 = document.getElementById('player2')
 let player1Score=  0;
 let player2Score = 0;
 let targetsPoints;
+let newTarget = true;
+let addPoints = true;
+let newGame = true;
 
 const targetsPointsDisplay = document.createElement('div');
 
@@ -144,7 +147,7 @@ document.addEventListener('keydown', releaseArrow2);
 //Game Start Button && Count down numbers
 const startButton = document.getElementById('start-button')
 
-startButton.addEventListener('click',function(){
+function startNewGame (){
     startButton.style.display='none';
     displayScore();
 
@@ -167,11 +170,14 @@ startButton.addEventListener('click',function(){
         }else{
             startTimer.style.display = 'none';
             displayTimer();
+            targetsArray.length = 0;
             appendTargets();
         }
     }
     startCountdown(0);
-})
+}
+
+startButton.addEventListener('click',startNewGame)
 
 // Generate targets points
 function generateTargetsPoints () {
@@ -210,13 +216,10 @@ function appendTargets (){
     targetsPointsDisplay.style.fontSize = '2em';
     targetsPointsDisplay.style.color = 'green';
     targetsPointsDisplay.style.display = 'inline';
-
     playArea.appendChild(targets);
     targetsArray.push(targets);
 
     playArea.appendChild(targetsPointsDisplay);
-
-    // return targets;
 }
 
 //Arrow 1 detects targets
@@ -228,17 +231,20 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
         const targetsWidth = parseInt(targets.style.width);
         const targetsHeight = parseInt(targets.style.height);
 
-        if (arrow1Left + 60 >= targetsLeft && arrow1Left <= targetsLeft + targetsWidth && arrow1Top >= targetsTop && arrow1Top <= targetsTop + targetsHeight){  
-            player1Score = player1Score + targetsPoints;
+        if (arrow1Left + 60 >= targetsLeft && arrow1Left <= targetsLeft + targetsWidth && arrow1Top >= targetsTop && arrow1Top <= targetsTop + targetsHeight){ 
+            if(addPoints === true){ 
+                player1Score = player1Score + targetsPoints;
+            }
             targetsArray.splice(i,1);
             playArea.removeChild(targets);
             arrow1.style.display = 'none';
             targetsPointsDisplay.style.display = 'none';
-            appendTargets();
+            if(newTarget === true){
+                appendTargets();
+            }
             
             
             displayScore();
-            console.log(player1Score)
 
 ;    }
   }
@@ -255,16 +261,19 @@ function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
         const targetsRight = targetsLeft + targetsWidth;
 
         if (arrow2Left <= targetsRight && arrow2Left >= targetsLeft && arrow2Top >= targetsTop && arrow2Top <= targetsTop + targetsHeight){  
-            player2Score = player2Score + targetsPoints;
+            if(addPoints === true){ 
+                player2Score = player2Score + targetsPoints;
+            }
             targetsArray.splice(i,1);
             playArea.removeChild(targets);
             arrow2.style.display = 'none';
             targetsPointsDisplay.style.display = 'none';
-            appendTargets();
+            if(newTarget === true){
+                appendTargets();
+            }
 
             displayScore();
-            console.log(player2Score)
-;    }
+    }
   }
 }
 
@@ -285,32 +294,33 @@ function displayScore () {
     player2ScoreBoard.style.lineHeight = '100px';
     player2ScoreBoard.style.color = 'white';
     player2ScoreBoard.style.backgroundColor = 'black';
-    // playArea.appendChild(player1ScoreBoard)
-    // playArea.appendChildss(player2ScoreBoard)
-
 }
 
 //Game timer function
 
 function displayTimer (){
-    let timeInSeconds = 60;
-    const gameTimer = document.getElementById('game-timer');
+    if (newGame === true){
+        let timeInSeconds = 10;
+        const gameTimer = document.getElementById('game-timer');
 
-    function updateTimer() {
-        const minutes = Math.floor(timeInSeconds / 60);
-        const seconds = timeInSeconds % 60;
+        function updateTimer() {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
 
-        gameTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            gameTimer.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         
-        // Decrease the time by 1 second
-        timeInSeconds--;
+            // Decrease the time by 1 second
+            timeInSeconds--;
 
-        // Check if the timer has reached 0
-        if (timeInSeconds < 0) {
-            clearInterval(timerInterval); // Stop the timer when it reaches 0
-            gameTimer.textContent = 'Time up!';
-            gameTimer.style.fontSize = '3em';
-            disableFunctions();
+            // Check if the timer has reached 0
+            if (timeInSeconds < 0) {
+                clearInterval(timerInterval); 
+                gameTimer.textContent = 'Time up!';
+                gameTimer.style.fontSize = '3em';
+                gameEndFunction();
+                clearAllTargets();
+                displayGameResult();
+            }
         }
     }
 
@@ -318,17 +328,80 @@ function displayTimer (){
     const timerInterval = setInterval(updateTimer, 1000);
 }
 
-//disable function
-function disableFunctions () {
+//gameEnd function
+function gameEndFunction () {
     document.removeEventListener('keydown', playersControls);
     document.removeEventListener('keydown',releaseArrow1);
     document.removeEventListener('keydown',releaseArrow2);
+    newTarget = false;
+    addPoints = false;
+    newGame = false;
 }
 
+//Game result function
+function displayGameResult(){
+    const gameResultDiv = document.createElement('div');
+    gameResultDiv.style.position = 'absolute';
+    gameResultDiv.style.width = '300px';
+    gameResultDiv.style.height = '100px';
+    gameResultDiv.style.left = '300px';
+    gameResultDiv.style.top = '150px';
+    gameResultDiv.style.fontSize = '3em';
+    gameResultDiv.style.color = 'purple';
+    gameResultDiv.style.textAlign = 'center';
 
+    if(player1Score > player2Score){
+        gameResultDiv.textContent = 'Elf archer won!'
+    }else if (player1Score < player2Score){
+        gameResultDiv.textContent = 'Golden Archer won!'
+    }else{
+        gameResultDiv.textContent = "It's a tie!"
+        gameResultDiv.style.fontSize = '5em';
+    }
 
+    const playAgainButt = document.createElement('button');
+    const gameResultDivLeft = parseInt(gameResultDiv.style.left);
+    const gameResultDivTop = parseInt(gameResultDiv.style.top);
+    const gameResultDivWidth = parseInt(gameResultDiv.style.width);
+    const gameResultDivHeight = parseInt(gameResultDiv.style.height);
 
+    playAgainButt.style.position = 'absolute';
+    playAgainButt.style.width = '150px';
+    playAgainButt.style.height = '100px';
+    playAgainButt.textContent = 'Play Again';
+    playAgainButt.style.fontSize = '2em';
+    playAgainButt.style.left = gameResultDivLeft + 75 + 'px';
+    playAgainButt.style.top = gameResultDivTop + gameResultDivHeight + 'px';
 
+    playArea.appendChild(gameResultDiv)
+    playArea.appendChild(playAgainButt)
+
+    playAgainButt.addEventListener('click', function (){
+        playAgainButt.style.display = 'none';
+        gameResultDiv.style.display = 'none';
+        document.addEventListener('keydown', playersControls);
+        document.addEventListener('keydown',releaseArrow1);
+        document.addEventListener('keydown',releaseArrow2);
+
+        player1Score = 0;
+        player2Score = 0;
+
+        startNewGame();
+
+        newTarget = true;
+        addPoints = true;
+        newGame = true;
+    });
+}
+
+// Clear all targets function
+function clearAllTargets() {
+    for (const target of targetsArray) {
+        playArea.removeChild(target);
+    }
+    targetsArray.length = 0;
+    targetsPointsDisplay.style.display = 'none';
+}
 
 
 
