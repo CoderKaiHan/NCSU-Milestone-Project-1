@@ -23,7 +23,7 @@ function playersControls (event) {
     const player1CurrentPosition = parseInt(player1.style.top) || 0;
     
     // Adjust the position based on the key pressed and restrict it within the play area
-    const moveAmount = 20;
+    const moveAmount = 10;
     let player1NewPosition;
     switch(event.key) {
         case 'w':
@@ -80,7 +80,7 @@ function releaseArrow1(event){
 
         function moveArrow(){
             if(arrow1CurrentLeft < 640){
-                arrow1CurrentLeft +=30;
+                arrow1CurrentLeft += 20;
                 arrow1.style.left = arrow1CurrentLeft + 'px';
                 arrow1DectectsTargets(arrow1,arrow1CurrentLeft,arrow1CurrentTop); 
                 setTimeout(moveArrow, getShootSpeed())
@@ -96,6 +96,7 @@ function releaseArrow1(event){
         playArea.appendChild(arrow1);
     }
 }
+
 document.addEventListener('keydown', releaseArrow1);
 
 //arrow speed
@@ -126,7 +127,7 @@ function releaseArrow2 (event){
 
         function moveArrow(){
             if(arrow2CurrentLeft > 160){
-                arrow2CurrentLeft -=30;
+                arrow2CurrentLeft -= 20;
                 arrow2.style.left = arrow2CurrentLeft + 'px';
                 arrow2DectectsTargets(arrow2,arrow2CurrentLeft,arrow2CurrentTop); 
                 setTimeout(moveArrow, getShootSpeed())
@@ -191,16 +192,24 @@ function appendTargets (){
     let targets = document.createElement('img');
     targets.src = '/assets/Images/Targets/flames.gif';
 
-    const maxLeft = 700;
-    const minLeft = 200;
+    const player1Left = parseInt(player1.style.left);
+    const player2Left = parseInt(player2.style.left);
+    const player1Height = parseInt(player1.style.height);   
+    const minLeft = player1Left + 40;
+    const maxLeft = player2Left - 50;
+    //max and min height needs to be improved. They should calculated based on playArea height and player hight.
+    const minHeight = 100;
+    const maxHeight = 540;
     const randomLeft = Math.floor(Math.random()*(maxLeft - minLeft + 1) + minLeft);
+    const randomTop = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+
     generateTargetsPoints();
     
     targets.style.position = 'absolute';
     targets.style.width = '50px';
     targets.style.height = '50px';
     targets.style.left = randomLeft + 'px';
-    targets.style.top = Math.floor(Math.random() * (playArea.clientHeight - targets.height)) + 'px';
+    targets.style.top = randomTop + 'px';
 
     const targetsLeft = parseInt(targets.style.left);
     const targetsTop = parseInt(targets.style.top);
@@ -386,11 +395,11 @@ function displayGameResult(){
         player1Score = 0;
         player2Score = 0;
 
-        startNewGame();
-
         newTarget = true;
         addPoints = true;
         newGame = true;
+
+        startNewGame();
     });
 }
 
