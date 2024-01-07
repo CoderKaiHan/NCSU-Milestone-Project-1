@@ -240,7 +240,7 @@ function appendTargets (){
     const player2Left = parseInt(player2.style.left);
     const player1Height = parseInt(player1.style.height);   
     const minLeft = player1Left + 40;
-    const maxLeft = player2Left - 50;
+    const maxLeft = player2Left - 60;
     //max and min height needs to be improved. They should calculated based on playArea height, score boards height, player hight and dragon height.
     const targetsMinTop = 100;
     const targetsMaxTop = 520;
