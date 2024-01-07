@@ -1,3 +1,4 @@
 1.simultaneous keydown events
 2.credits to material authors
 3.refractor the codes
+4.arrow bug (after hitting a target it displays none but can hit next target at the same line invisiblly.)
