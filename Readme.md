@@ -39,3 +39,8 @@ Assets:
 -backgournd images and music
 -other objects
 -riding animals & machines
+
+
+
+Developer contact information:
+hankai0418@gmail.com
