@@ -1,33 +1,17 @@
-//Global variables
+//Some global variables needs to be moved around
 const playArea = document.querySelector
 ('#play-area');
 
-const startButton = document.getElementById('start-button');
-
-const player1 = document.getElementById('player1');
-
-const player2 = document.getElementById('player2');
-
-const dragon1 = document.getElementById('dragon1');
-
-const dragon2 = document.getElementById('dragon2');
-
-const gameTimer = document.getElementById('game-timer');
-
-const targetsArray = [];
-
-const targetsPointsDisplay = document.createElement('div');
-
-const bgMusic = document.getElementById('bgMusic');
-
-let player1Score=  0;
-let player2Score = 0;
-let targetsPoints;
 let newTarget = true;
 let addPoints = true;
 let newGame = true;
 let soundEffect = false;
 
+//Players & dragons move control function
+const player1 = document.getElementById('player1');
+const player2 = document.getElementById('player2');
+const dragon1 = document.getElementById('dragon1');
+const dragon2 = document.getElementById('dragon2');
 
 //Set initial players & dragons position in js
 player1.style.top = '240px';
@@ -39,8 +23,6 @@ dragon1.style.left = '65px';
 dragon2.style.top = '270px';
 dragon2.style.left = '735px';
 
-
-//Players & dragons move control function
 function playersControls (event) {
     // Get player1 & dragon1 current position
     const player1CurrentPosition = parseInt(player1.style.top);
@@ -238,14 +220,20 @@ function startNewGame (){
     startCountdown(0);
 }
 
-startButton.addEventListener('click',startNewGame)
+const startButton = document.getElementById('start-button');
+
+startButton.addEventListener('click',startNewGame);
 
 // Generate targets points
 function generateTargetsPoints () {
     targetsPoints = Math.floor(Math.random() * 1000);
 }
 
-//Append Targets 
+//Append Targets & targets points
+const targetsArray = [];
+const targetsPointsDisplay = document.createElement('div');
+let targetsPoints;
+
 function appendTargets (){
     let targets = document.createElement('img');
     targets.src = '/assets/Images/Targets/flames.gif';
@@ -301,6 +289,8 @@ function appendTargets (){
 }
 
 //Arrow 1 detects targets
+let player1Score=  0;
+
 function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
     for (let i = 0; i < targetsArray.length; i++){
         const targets = targetsArray[i];
@@ -338,6 +328,8 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
 }
 
 //Arrow 2 detects targets
+let player2Score = 0;
+
 function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
     for (let i = 0; i < targetsArray.length; i++){
         const targets = targetsArray[i];
@@ -395,6 +387,7 @@ function displayScore () {
 }
 
 //Game timer function
+const gameTimer = document.getElementById('game-timer');
 
 function displayTimer (){
     if (newGame === true){
@@ -502,6 +495,8 @@ function clearAllTargets() {
 
 
 //Background music control functions
+const bgMusic = document.getElementById('bgMusic');
+
 function controlBackgroundMusic (){
     const bgMusicButton = document.getElementById('bgMusicButton');
 
