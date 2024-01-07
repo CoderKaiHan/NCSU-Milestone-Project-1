@@ -1,10 +1,7 @@
 body{
-    margin:20px;
+    margin:auto;
     width:1500px;
-}
-
-div, footer{
-    outline: 1px solid blue;
+    background-color: rgb(159, 175, 14);
 }
 
 header{
@@ -17,18 +14,30 @@ header{
     height: 600px;
     display: flex;
     justify-content: space-evenly;
+    border: 10px solid rgb(107, 44, 112);
+    border-style: outset;
 }
 
 .ads{
     width: 250px;
 }
 
+#ad1{
+    background-image: url(/assets/Images/Ads%20images/pexels-photo-11513308.jpeg);
+    background-size: 100% 100%;
+}
+
+#ad2{
+    background-image: url(/assets/Images/Ads%20images/pexels-photo-2290786.jpeg);
+    background-size: 100% 100%;
+}
+
 #play-area{
     width: 900px;
     height: 600px;
     position: relative;
-    background-image: url(/assets/Images/bg001.png);
-    background-size: 100% 100%;
+    background-image: url(/assets/Images/parallax-mountain-animX1.gif);
+    background-size: cover;
     display: flex;
     justify-content: center;
 }
@@ -59,58 +68,89 @@ header{
 }
 
 .score-board{
-    border:1px solid purple;
     width: 150px;
     height: 100px; 
 }
 
 #game-timer{
-    border:2px dashed orange;
     width: 200px;
     height: 80px; 
     background-color: black;
     color: red;
     font-size: 4em;
     text-align:center;
+    display: none;
+}
+
+#bgMusicButton{
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    left: 850px;
+    text-align: center;
+}
+
+#sound-effect-button{
+    position: absolute;
+    width: 50px;
+    height: 40px;
+    left: 850px;
+    top:45px;
+    text-align: center;
 }
 
 .players{
     width:60px;
     height:60px;
     position: absolute;
+    display: none;
     
 }
 
-#player1{
-    top:240px;
-    left:100px;
-}
 
 #player2{
-    top:240px;
-    right:100px;
-    animation: goldenFloating 3s ease-in-out infinite alternate;
+    transform: scaleX(-1);
+    /* animation: goldenFloating 3s ease-in-out infinite alternate; */
 }
 
-@keyframes goldenFloating {
+.dragons{
+    width:100px;
+    height:60px;
+    position: absolute;
+    display: none;
+    
+}
+
+/* @keyframes goldenFloating {
     from {
-        transform: scaleX(-1) translateY(0);
+        transform: translateY(0);
     }
     25%{
-        transform: scaleX(-1) translateY(0);
+        transform: translateY(0);
     }
     75%{
-        transform: scaleX(-1) translateY(0);
+        transform: translateY(0);
     }
     to {
-        transform: scaleX(-1) translateY(0);
+        transform: translateY(0);
     }
-}
+} */
 
 #game-instructions{
-    height: 200px;
+    font-size: 1.5em;
+    line-height: 40px;
+    padding-left: 30px;
+    border: 10px solid rgb(107, 44, 112);
+    border-style: outset;
+}
+
+#game-instructions span {
+    display: inline-block;
+    margin-left: 30px;
 }
 
 footer{
     height: 150px;
+    border: 10px solid rgb(107, 44, 112);
+    border-style: outset;
 }
