@@ -8,13 +8,11 @@
 </head>
 <body>
     <header id="header">
-        <h1>Kai's First Browser Game !</h1>
+        <h1>Dragon Knights</h1>
     </header>
     <main>
       <div id="flex-divs">  
-        <div class="ads" id="ad1">
-            here is ad1
-        </div>
+        <div class="ads" id="ad1"></div>
         <div id="play-area">
             <div class="score-board" id="score-board1"></div>
             <div id="game-timer">1:00</div>
@@ -22,13 +20,32 @@
             <button type="button" value="Start" class="button" id="start-button">Start Game</button>
             <img src="/assets/Images/archer_elf.png" alt="player1:elf archer" id="player1" class="players">
             <img src="/assets/Images/archer_gold.png" alt="player2:golden archer" id="player2" class="players">
+            <img src="./assets/Images/reddragonfly.png" alt="Elf archer's red dragon" class="dragons" id="dragon1">
+            <img src="./assets/Images/reddragonfly3.png" alt="Golden archer's red dragon" class="dragons" id="dragon2">
+            <audio src="./assets/Audio/battle-mus.mp3" id ="bgMusic" loop type="audio/mp3">Your browser does not support the audio.</audio>
+            <button id="bgMusicButton">Music: OFF</button>
+            <button id="sound-effect-button" onclic="controlBackgroundMusic()">Effect: OFF</button>
         </div>
-        <div class="ads" id="ad2">
-            here is ad2
-        </div>
+        <div class="ads" id="ad2"></div>
       </div>  
         <div id="game-instructions">
-            here are game instructions
+            <p>
+                1.Click "Start Game" to start a new game.
+                <br>
+                2.Game rules: Players control dragon knights to shoot targets with arrows. The one who earns more points at the end wins the game.
+                <br>
+                3.Player controls:
+                <br>
+                <span>Elf Knight:</span> 
+                Move up ('W')
+                Move down ('S')
+                Release arrow ('D')
+                <br>
+                <span>Golden Knight:</span> 
+                Move up ('Arrow Up')
+                Move down ('Arrow Down')
+                Release arrow ('Arrow Left')
+            </p>
         </div>
     </main>
     <footer>Other information</footer>
