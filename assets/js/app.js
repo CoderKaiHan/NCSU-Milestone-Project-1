@@ -1,7 +1,12 @@
-//define a playArea variable
+//Global variables
 const playArea = document.querySelector('#play-area');
 const player1 = document.getElementById('player1');
-const player2 = document.getElementById('player2')
+const player2 = document.getElementById('player2');
+const dragon1 = document.getElementById('dragon1');
+const dragon2 = document.getElementById('dragon2');
+const gameTimer = document.getElementById('game-timer');
+const targetsPointsDisplay = document.createElement('div');
+const bgMusic = document.getElementById('bgMusic');
 let player1Score=  0;
 let player2Score = 0;
 let targetsPoints;
@@ -9,50 +14,66 @@ let newTarget = true;
 let addPoints = true;
 let newGame = true;
 
-const targetsPointsDisplay = document.createElement('div');
 
+//Reset players & dragons position in js
 player1.style.top = '240px';
 player1.style.left = '100px';
 player2.style.top = '240px';
 player2.style.left = '740px';
+dragon1.style.top = '270px';
+dragon1.style.left = '65px';
+dragon2.style.top = '270px';
+dragon2.style.left = '735px';
 
 
 //players control function
 function playersControls (event) {
     // Get player1 current position
     const player1CurrentPosition = parseInt(player1.style.top) || 0;
-    
+    const dragon1CurrentPosition = parseInt(dragon1.style.top) || 0;
+
     // Adjust the position based on the key pressed and restrict it within the play area
     const moveAmount = 10;
     let player1NewPosition;
+    let dragon1NewPosition;
+    //The following part needs improvement. The max and min value o fthe new positions should be calculated by relative objects instead of a certain number. 
     switch(event.key) {
         case 'w':
             event.preventDefault();
             player1NewPosition= Math.max(player1CurrentPosition - moveAmount, 0)
+            dragon1NewPosition= Math.max(dragon1CurrentPosition - moveAmount, 30)
             break;
         case 's':
             event.preventDefault();
-            player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 540);
+            player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 510);
+            dragon1NewPosition= Math.min(dragon1CurrentPosition + moveAmount, 540);
             break; 
     }
     player1.style.top = player1NewPosition + 'px';
+    dragon1.style.top = dragon1NewPosition + 'px';
     
     // Get player2 current position
     const player2CurrentPosition = parseInt(player2.style.top) || 0;
+    const dragon2CurrentPosition = parseInt(dragon2.style.top) || 0;
 
     // Adjust the position based on the key pressed and restrict it within the play area
     let player2NewPosition;
+    let dragon2NewPosition;
+    //The following part needs improvement. The max and min value o fthe new positions should be calculated by relative objects instead of a certain number. 
     switch(event.key) {
         case 'ArrowUp':
             event.preventDefault();
             player2NewPosition= Math.max(player2CurrentPosition - moveAmount, 0)
+            dragon2NewPosition= Math.max(dragon2CurrentPosition - moveAmount, 30)
             break;
         case 'ArrowDown':
             event.preventDefault();
-            player2NewPosition= Math.min(player2CurrentPosition + moveAmount, 540);
+            player2NewPosition= Math.min(player2CurrentPosition + moveAmount, 510);
+            dragon2NewPosition= Math.min(dragon2CurrentPosition + moveAmount, 540);
             break; 
     }
     player2.style.top = player2NewPosition + 'px';
+    dragon2.style.top = dragon2NewPosition + 'px';
 }
 
 document.addEventListener('keydown', playersControls);
@@ -94,6 +115,15 @@ function releaseArrow1(event){
 
     if(arrow1){
         playArea.appendChild(arrow1);
+        
+        const arrow1Sound = document.createElement('audio');
+        arrow1Sound.src = '/assets/Audio/Archers-shooting.flac';
+        
+        if(soundEffect === true){
+            arrow1Sound.play();
+        }else{
+            arrow1Sound.pause();
+        }
     }
 }
 
@@ -141,6 +171,15 @@ function releaseArrow2 (event){
 
     if(arrow2){
         playArea.appendChild(arrow2);
+        
+        const arrow2Sound = document.createElement('audio');
+        arrow2Sound.src = '/assets/Audio/shoot.ogg';
+
+        if(soundEffect === true){
+            arrow2Sound.play();
+        }else{
+            arrow2Sound.pause();
+        }
     }
 }
 document.addEventListener('keydown', releaseArrow2);
@@ -151,6 +190,11 @@ const startButton = document.getElementById('start-button')
 function startNewGame (){
     startButton.style.display='none';
     displayScore();
+    player1.style.display = 'inline';
+    player2.style.display = 'inline';
+    dragon1.style.display = 'inline';
+    dragon2.style.display = 'inline';
+    gameTimer.style.display = 'inline';
 
 
     const startTimer = document.createElement('div');
@@ -197,11 +241,11 @@ function appendTargets (){
     const player1Height = parseInt(player1.style.height);   
     const minLeft = player1Left + 40;
     const maxLeft = player2Left - 50;
-    //max and min height needs to be improved. They should calculated based on playArea height and player hight.
-    const minHeight = 100;
-    const maxHeight = 540;
+    //max and min height needs to be improved. They should calculated based on playArea height, score boards height, player hight and dragon height.
+    const targetsMinTop = 100;
+    const targetsMaxTop = 520;
     const randomLeft = Math.floor(Math.random()*(maxLeft - minLeft + 1) + minLeft);
-    const randomTop = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+    const randomTop = Math.floor(Math.random() * (targetsMaxTop - targetsMinTop + 1) + targetsMinTop);
 
     generateTargetsPoints();
     
@@ -225,8 +269,20 @@ function appendTargets (){
     targetsPointsDisplay.style.fontSize = '2em';
     targetsPointsDisplay.style.color = 'green';
     targetsPointsDisplay.style.display = 'inline';
+
     playArea.appendChild(targets);
     targetsArray.push(targets);
+    if(targets){
+        const targetsAppendSound = document.createElement('audio');
+    
+        targetsAppendSound.src = '/assets/Audio/foom_0.wav';
+
+        if(soundEffect === true){
+            targetsAppendSound.play();
+        }else{
+            targetsAppendSound.pause();
+        }
+    }
 
     playArea.appendChild(targetsPointsDisplay);
 }
@@ -248,14 +304,24 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
             playArea.removeChild(targets);
             arrow1.style.display = 'none';
             targetsPointsDisplay.style.display = 'none';
+
+            const hitTargetsSound = document.createElement('audio');
+        
+            hitTargetsSound.src = '/assets/Audio/cannon_fire.ogg';
+
+            if(soundEffect === true){
+                hitTargetsSound.play();
+            }else{
+                hitTargetsSound.pause();
+            }
+
             if(newTarget === true){
                 appendTargets();
             }
             
             
             displayScore();
-
-;    }
+    }
   }
 }
 
@@ -277,6 +343,17 @@ function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
             playArea.removeChild(targets);
             arrow2.style.display = 'none';
             targetsPointsDisplay.style.display = 'none';
+
+            const hitTargetsSound = document.createElement('audio');
+        
+            hitTargetsSound.src = '/assets/Audio/cannon_fire.ogg';
+
+            if(soundEffect === true){
+                hitTargetsSound.play();
+            }else{
+                hitTargetsSound.pause();
+            }
+
             if(newTarget === true){
                 appendTargets();
             }
@@ -309,8 +386,7 @@ function displayScore () {
 
 function displayTimer (){
     if (newGame === true){
-        let timeInSeconds = 10;
-        const gameTimer = document.getElementById('game-timer');
+        let timeInSeconds = 60;
 
         function updateTimer() {
             const minutes = Math.floor(timeInSeconds / 60);
@@ -371,7 +447,6 @@ function displayGameResult(){
     const playAgainButt = document.createElement('button');
     const gameResultDivLeft = parseInt(gameResultDiv.style.left);
     const gameResultDivTop = parseInt(gameResultDiv.style.top);
-    const gameResultDivWidth = parseInt(gameResultDiv.style.width);
     const gameResultDivHeight = parseInt(gameResultDiv.style.height);
 
     playAgainButt.style.position = 'absolute';
@@ -392,6 +467,7 @@ function displayGameResult(){
         document.addEventListener('keydown',releaseArrow1);
         document.addEventListener('keydown',releaseArrow2);
 
+        gameTimer.textContent = '1:00';
         player1Score = 0;
         player2Score = 0;
 
@@ -413,14 +489,41 @@ function clearAllTargets() {
 }
 
 
+//Background music control functions
+function controlBackgroundMusic (){
+    const bgMusicButton = document.getElementById('bgMusicButton');
 
+    bgMusicButton.addEventListener('click', function(){
+        if(bgMusic.paused){
+            bgMusic.play();
+            bgMusicButton.textContent = 'Music: ON';
+        }else{
+            bgMusic.pause();
+            bgMusicButton.textContent = 'Music: OFF';
+        }
+    });
+}
 
+controlBackgroundMusic();
 
+//Sound effects control
+let soundEffect = false;
 
+function controlSoundEffect (){
+    const soundEffectButton = document.getElementById('sound-effect-button');
 
+    soundEffectButton.addEventListener('click',function(){
+        if(soundEffect === false){
+            soundEffect = true;
+            soundEffectButton.textContent = 'Effect: ON';
+        }else{
+            soundEffect = false;
+            soundEffectButton.textContent = 'Effect: OFF';
+        }
+    });
+}
 
-
-
+controlSoundEffect();
 
 
 
