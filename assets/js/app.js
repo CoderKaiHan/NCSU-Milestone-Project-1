@@ -1,21 +1,35 @@
 //Global variables
-const playArea = document.querySelector('#play-area');
+const playArea = document.querySelector
+('#play-area');
+
+const startButton = document.getElementById('start-button');
+
 const player1 = document.getElementById('player1');
+
 const player2 = document.getElementById('player2');
+
 const dragon1 = document.getElementById('dragon1');
+
 const dragon2 = document.getElementById('dragon2');
+
 const gameTimer = document.getElementById('game-timer');
+
+const targetsArray = [];
+
 const targetsPointsDisplay = document.createElement('div');
+
 const bgMusic = document.getElementById('bgMusic');
+
 let player1Score=  0;
 let player2Score = 0;
 let targetsPoints;
 let newTarget = true;
 let addPoints = true;
 let newGame = true;
+let soundEffect = false;
 
 
-//Reset players & dragons position in js
+//Set initial players & dragons position in js
 player1.style.top = '240px';
 player1.style.left = '100px';
 player2.style.top = '240px';
@@ -26,11 +40,11 @@ dragon2.style.top = '270px';
 dragon2.style.left = '735px';
 
 
-//players control function
+//Players & dragons move control function
 function playersControls (event) {
-    // Get player1 current position
-    const player1CurrentPosition = parseInt(player1.style.top) || 0;
-    const dragon1CurrentPosition = parseInt(dragon1.style.top) || 0;
+    // Get player1 & dragon1 current position
+    const player1CurrentPosition = parseInt(player1.style.top);
+    const dragon1CurrentPosition = parseInt(dragon1.style.top);
 
     // Adjust the position based on the key pressed and restrict it within the play area
     const moveAmount = 10;
@@ -39,16 +53,19 @@ function playersControls (event) {
     //The following part needs improvement. The max and min value o fthe new positions should be calculated by relative objects instead of a certain number. 
     switch(event.key) {
         case 'w':
+        case 'W':
             event.preventDefault();
             player1NewPosition= Math.max(player1CurrentPosition - moveAmount, 0)
             dragon1NewPosition= Math.max(dragon1CurrentPosition - moveAmount, 30)
             break;
         case 's':
+        case 'S':
             event.preventDefault();
             player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 510);
             dragon1NewPosition= Math.min(dragon1CurrentPosition + moveAmount, 540);
             break; 
     }
+
     player1.style.top = player1NewPosition + 'px';
     dragon1.style.top = dragon1NewPosition + 'px';
     
@@ -72,6 +89,7 @@ function playersControls (event) {
             dragon2NewPosition= Math.min(dragon2CurrentPosition + moveAmount, 540);
             break; 
     }
+
     player2.style.top = player2NewPosition + 'px';
     dragon2.style.top = dragon2NewPosition + 'px';
 }
@@ -91,7 +109,7 @@ function releaseArrow1(event){
     
     let arrow1;
 
-    if(event.key ==='d'){
+    if(event.key ==='d' || event.key ==='D'){
         arrow1 = document.createElement('img');
         arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
         arrow1.style.position ='absolute';
@@ -185,8 +203,6 @@ function releaseArrow2 (event){
 document.addEventListener('keydown', releaseArrow2);
 
 //Game Start Button && Count down numbers
-const startButton = document.getElementById('start-button')
-
 function startNewGame (){
     startButton.style.display='none';
     displayScore();
@@ -230,15 +246,12 @@ function generateTargetsPoints () {
 }
 
 //Append Targets 
-const targetsArray = [];
-
 function appendTargets (){
     let targets = document.createElement('img');
     targets.src = '/assets/Images/Targets/flames.gif';
 
     const player1Left = parseInt(player1.style.left);
-    const player2Left = parseInt(player2.style.left);
-    const player1Height = parseInt(player1.style.height);   
+    const player2Left = parseInt(player2.style.left);  
     const minLeft = player1Left + 40;
     const maxLeft = player2Left - 60;
     //max and min height needs to be improved. They should calculated based on playArea height, score boards height, player hight and dragon height.
@@ -318,7 +331,6 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
             if(newTarget === true){
                 appendTargets();
             }
-            
             
             displayScore();
     }
@@ -436,9 +448,9 @@ function displayGameResult(){
     gameResultDiv.style.textAlign = 'center';
 
     if(player1Score > player2Score){
-        gameResultDiv.textContent = 'Elf archer won!'
+        gameResultDiv.textContent = 'Elf knight won!'
     }else if (player1Score < player2Score){
-        gameResultDiv.textContent = 'Golden Archer won!'
+        gameResultDiv.textContent = 'Golden Knight won!'
     }else{
         gameResultDiv.textContent = "It's a tie!"
         gameResultDiv.style.fontSize = '5em';
@@ -455,7 +467,7 @@ function displayGameResult(){
     playAgainButt.textContent = 'Play Again';
     playAgainButt.style.fontSize = '2em';
     playAgainButt.style.left = gameResultDivLeft + 75 + 'px';
-    playAgainButt.style.top = gameResultDivTop + gameResultDivHeight + 'px';
+    playAgainButt.style.top = gameResultDivTop + gameResultDivHeight + 10 + 'px';
 
     playArea.appendChild(gameResultDiv)
     playArea.appendChild(playAgainButt)
@@ -507,8 +519,6 @@ function controlBackgroundMusic (){
 controlBackgroundMusic();
 
 //Sound effects control
-let soundEffect = false;
-
 function controlSoundEffect (){
     const soundEffectButton = document.getElementById('sound-effect-button');
 
@@ -524,73 +534,3 @@ function controlSoundEffect (){
 }
 
 controlSoundEffect();
-
-
-
-
-
-
-
-// //set playArea background image
-// playArea.style.background ="url(/assets/Images/bg001.png) no-repeat";
-// playArea.style.backgroundSize = "100% 100%";
-
-// //create character function
-// function createCharacter (src,scaleX,position,top,left,zIndex){
-//     const character = document.createElement('img');
-//     character.src = src;
-//     character.style.transform = `scaleX(${scaleX})`
-//     character.style.position = position;
-//     character.style.top = top;
-//     character.style.left = left;
-//     character.style.zIndex = zIndex;
-//     playArea.appendChild(character);
-//     return character
-// }
-// //create item function
-// function createItem (src,position,width,height,top,left,zIndex){
-//     const item = document.createElement('img');
-//     item.src = src;
-//     item.style.position = position;
-//     item.style.width =width;
-//     item.style.height = height;
-//     item.style.top = top;
-//     item.style.left = left;
-//     item.style.zIndex = zIndex;
-//     playArea.appendChild(item);
-//     return item;
-// }
-
-// //move item function
-// function moveItem (item,right,down,scaleX,rotate){
-//     item.style.transform = `translate(${right}px, ${down}px) scaleX(${scaleX}) rotate(${rotate}deg)`
-// }
-
-// //Arrow shooting function
-// function shootArrow (arrow){
-//     const arrowMoving =[
-//         {transform:''}
-//     ]
-// }
-
-
-// //create characters and items
-// const character1 = createCharacter('/assets/Images/archer light.png',1,'absolute','85%','10%','1')
-
-// const character2 = createCharacter('/assets/Images/archer_elf.png',-1,'absolute','85%','80%','1')
-
-// const bow1 = createItem('/assets/Images/Bow and Arrow Set/Png/Small/Bow3.png','absolute','20px','40px','85%','10%','1')
-
-// const bow2 = createItem('/assets/Images/Bow and Arrow Set/Png/Small/Bow3.png','absolute','20px','40px','85%','80%','1')
-
-// const arrow1 = createItem('/assets/Images/arrow (1).png','absolute','8px','50px','85%','10%')
-
-// const arrow2 = createItem('/assets/Images/arrow (1).png','absolute','8px','50px','85%','80%')
-
-// //move items to the initial position
-// moveItem(bow1,45,2,1,0)
-// moveItem(bow2,0,0,-1,0)
-// moveItem(arrow1,45,-3,1,90)
-// moveItem(arrow2,10,-4,-1,90)
-
-// // shootArrow(arrow1)
