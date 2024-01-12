@@ -150,7 +150,9 @@ header{
 }
 
 footer{
-    height: 150px;
     border: 10px solid rgb(107, 44, 112);
     border-style: outset;
+    font-size: 1.5em;
+    line-height: 40px;
+    padding-left: 30px;
 }
