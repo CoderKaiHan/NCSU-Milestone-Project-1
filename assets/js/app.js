@@ -23,6 +23,55 @@ dragon1.style.left = '65px';
 dragon2.style.top = '270px';
 dragon2.style.left = '735px';
 
+const player1MoveKeys = {};
+const player2MoveKeys = {};
+
+document.addEventListener('keydown', function (event) {
+    handleKeyDown(event, 'player1', player1MoveKeys);
+    handleKeyDown(event, 'player2', player2MoveKeys);
+});
+
+document.addEventListener('keyup', function (event) {
+    handleKeyUp(event, 'player1', player1MoveKeys);
+    handleKeyUp(event, 'player2', player2MoveKeys);
+});
+
+function handleKeyDown(event, player, moveKeys){
+    // const validKeys = (player === 'player1') ? ['w', 's'] : ['ArrowUp', 'ArrowDown'];
+    
+    let validKeys;
+
+    if (player === 'player1') {
+        validKeys = ['w', 'W','s','S','d','D'];
+    } else {
+        validKeys = ['ArrowUp', 'ArrowDown','ArrowLeft'];
+    }
+
+    if (validKeys.includes(event.key)) {
+        moveKeys[event.key] = true;
+        playersControls(event, player);
+    }
+
+    releaseArrow1(event, player);
+    releaseArrow2(event, player);
+}
+
+function handleKeyUp(event, player, moveKeys) {
+    // const validKeys = (player === 'player1') ? ['w', 's'] : ['ArrowUp', 'ArrowDown'];
+    
+    let validKeys;
+
+    if (player === 'player1') {
+        validKeys = ['w', 'W','s','S','d','D'];
+    } else {
+        validKeys = ['ArrowUp', 'ArrowDown','ArrowLeft'];
+    }
+    
+    if (validKeys.includes(event.key)) {
+        moveKeys[event.key] = false;
+    }
+}
+
 function playersControls (event) {
     // Get player1 & dragon1 current position
     const player1CurrentPosition = parseInt(player1.style.top);
@@ -33,101 +82,95 @@ function playersControls (event) {
     let player1NewPosition;
     let dragon1NewPosition;
     //The following part needs improvement. The max and min value o fthe new positions should be calculated by relative objects instead of a certain number. 
-    switch(event.key) {
-        case 'w':
-        case 'W':
+    if (player1MoveKeys['w'] || player1MoveKeys['W']){
             event.preventDefault();
             player1NewPosition= Math.max(player1CurrentPosition - moveAmount, 0)
             dragon1NewPosition= Math.max(dragon1CurrentPosition - moveAmount, 30)
-            break;
-        case 's':
-        case 'S':
+    }
+
+    if (player1MoveKeys['s'] || player1MoveKeys['S']){
             event.preventDefault();
             player1NewPosition= Math.min(player1CurrentPosition + moveAmount, 510);
             dragon1NewPosition= Math.min(dragon1CurrentPosition + moveAmount, 540);
-            break; 
     }
 
     player1.style.top = player1NewPosition + 'px';
     dragon1.style.top = dragon1NewPosition + 'px';
     
     // Get player2 current position
-    const player2CurrentPosition = parseInt(player2.style.top) || 0;
-    const dragon2CurrentPosition = parseInt(dragon2.style.top) || 0;
+    const player2CurrentPosition = parseInt(player2.style.top);
+    const dragon2CurrentPosition = parseInt(dragon2.style.top);
 
     // Adjust the position based on the key pressed and restrict it within the play area
     let player2NewPosition;
     let dragon2NewPosition;
     //The following part needs improvement. The max and min value o fthe new positions should be calculated by relative objects instead of a certain number. 
-    switch(event.key) {
-        case 'ArrowUp':
+    if (player2MoveKeys['ArrowUp']) {
             event.preventDefault();
             player2NewPosition= Math.max(player2CurrentPosition - moveAmount, 0)
             dragon2NewPosition= Math.max(dragon2CurrentPosition - moveAmount, 30)
-            break;
-        case 'ArrowDown':
+    }
+
+    if (player2MoveKeys['ArrowDown']){
             event.preventDefault();
             player2NewPosition= Math.min(player2CurrentPosition + moveAmount, 510);
             dragon2NewPosition= Math.min(dragon2CurrentPosition + moveAmount, 540);
-            break; 
     }
 
     player2.style.top = player2NewPosition + 'px';
     dragon2.style.top = dragon2NewPosition + 'px';
 }
 
-document.addEventListener('keydown', playersControls);
-
 //player1 release arrow function
-function releaseArrow1(event){
-    //Get player1 current top position
-    const player1CurrentTop = parseInt(player1.style.top);
-    const player1CurrentLeft = parseInt(player1.style.left);
+function releaseArrow1(event,player){
+    if(player === 'player1' && (event.key === 'd' || event.key === 'D')){
+        //Get player1 current top position
+        const player1CurrentTop = parseInt(player1.style.top);
+        const player1CurrentLeft = parseInt(player1.style.left);
 
 
-    //Get player1 arrow current location
-    const arrow1CurrentTop = player1CurrentTop + 12; 
-    let arrow1CurrentLeft = player1CurrentLeft + 40;
+        //Get player1 arrow current location
+        const arrow1CurrentTop = player1CurrentTop + 12; 
+        let arrow1CurrentLeft = player1CurrentLeft + 40;
     
-    let arrow1;
+        let arrow1;
 
-    if(event.key ==='d' || event.key ==='D'){
-        arrow1 = document.createElement('img');
-        arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
-        arrow1.style.position ='absolute';
-        arrow1.style.top = arrow1CurrentTop + 'px';
-        arrow1.style.width = '60px';
-        arrow1.style.height = '10px';
+        if(event.key ==='d' || event.key ==='D'){
+            arrow1 = document.createElement('img');
+            arrow1.src = '/assets/Images/Bow and Arrow Set/Png/Medium/Arrow5.png';
+            arrow1.style.position ='absolute';
+            arrow1.style.top = arrow1CurrentTop + 'px';
+            arrow1.style.width = '60px';
+            arrow1.style.height = '10px';
 
-        function moveArrow(){
-            if(arrow1CurrentLeft < 640){
-                arrow1CurrentLeft += 20;
-                arrow1.style.left = arrow1CurrentLeft + 'px';
-                arrow1DectectsTargets(arrow1,arrow1CurrentLeft,arrow1CurrentTop); 
-                setTimeout(moveArrow, getShootSpeed())
-            }else{
-                arrow1.style.display = 'none';
+            function moveArrow(){
+                if(arrow1CurrentLeft < 640){
+                    arrow1CurrentLeft += 20;
+                    arrow1.style.left = arrow1CurrentLeft + 'px';
+                    arrow1DectectsTargets(arrow1,arrow1CurrentLeft,arrow1CurrentTop); 
+                    setTimeout(moveArrow, getShootSpeed())
+                }else{
+                    arrow1.style.display = 'none';
+                }
             }
+
+            moveArrow()       
         }
 
-        moveArrow()       
-    }
-
-    if(arrow1){
-        playArea.appendChild(arrow1);
+        if(arrow1){
+            playArea.appendChild(arrow1);
         
-        const arrow1Sound = document.createElement('audio');
-        arrow1Sound.src = '/assets/Audio/Archers-shooting.flac';
+            const arrow1Sound = document.createElement('audio');
+                arrow1Sound.src = '/assets/Audio/shoot.ogg';
         
-        if(soundEffect === true){
-            arrow1Sound.play();
-        }else{
-            arrow1Sound.pause();
+            if(soundEffect === true){
+                arrow1Sound.play();
+            }else{
+                arrow1Sound.pause();
+            }
         }
     }
 }
-
-document.addEventListener('keydown', releaseArrow1);
 
 //arrow speed
 function getShootSpeed(){
@@ -135,54 +178,54 @@ function getShootSpeed(){
 }
 
 //player2 release arrow function
-function releaseArrow2 (event){
-    //Get player1 current top position
-    const player2CurrentTop = parseInt(player2.style.top);
-    const player2CurrentLeft = parseInt(player2.style.left);
+function releaseArrow2 (event,player){
+    if (player === 'player2' && (event.key === 'ArrowLeft')) {
+        //Get player1 current top position
+        const player2CurrentTop = parseInt(player2.style.top);
+        const player2CurrentLeft = parseInt(player2.style.left);
 
-
-    //Get player2 arrow current location
-    const arrow2CurrentTop = player2CurrentTop + 12; 
-    let arrow2CurrentLeft = player2CurrentLeft - 40;
+        //Get player2 arrow current location
+        const arrow2CurrentTop = player2CurrentTop + 12; 
+        let arrow2CurrentLeft = player2CurrentLeft - 40;
     
-    let arrow2;
+        let arrow2;
 
-    if(event.key ==='ArrowLeft'){
-        arrow2 = document.createElement('img');
-        arrow2.src = '/assets/Images/ornamented_arrow.png';
-        arrow2.style.position ='absolute';
-        arrow2.style.top = arrow2CurrentTop + 'px';
-        arrow2.style.width = '80px';
-        arrow2.style.height = '15px';
+        if(event.key ==='ArrowLeft'){
+            arrow2 = document.createElement('img');
+            arrow2.src = '/assets/Images/ornamented_arrow.png';
+            arrow2.style.position ='absolute';
+            arrow2.style.top = arrow2CurrentTop + 'px';
+            arrow2.style.width = '80px';
+            arrow2.style.height = '15px';
 
-        function moveArrow(){
-            if(arrow2CurrentLeft > 160){
-                arrow2CurrentLeft -= 20;
-                arrow2.style.left = arrow2CurrentLeft + 'px';
-                arrow2DectectsTargets(arrow2,arrow2CurrentLeft,arrow2CurrentTop); 
-                setTimeout(moveArrow, getShootSpeed())
-            }else{
-                arrow2.style.display = 'none';
+            function moveArrow(){
+                if(arrow2CurrentLeft > 160){
+                    arrow2CurrentLeft -= 20;
+                    arrow2.style.left = arrow2CurrentLeft + 'px';
+                    arrow2DectectsTargets(arrow2,arrow2CurrentLeft,arrow2CurrentTop); 
+                    setTimeout(moveArrow, getShootSpeed())
+                }else{
+                    arrow2.style.display = 'none';
+                }
             }
+
+            moveArrow()       
         }
 
-        moveArrow()       
-    }
-
-    if(arrow2){
-        playArea.appendChild(arrow2);
+        if(arrow2){
+            playArea.appendChild(arrow2);
         
-        const arrow2Sound = document.createElement('audio');
-        arrow2Sound.src = '/assets/Audio/shoot.ogg';
+            const arrow2Sound = document.createElement('audio');
+            arrow2Sound.src = '/assets/Audio/Archers-shooting.flac';
 
-        if(soundEffect === true){
-            arrow2Sound.play();
-        }else{
-            arrow2Sound.pause();
+            if(soundEffect === true){
+                arrow2Sound.play();
+            }else{
+                arrow2Sound.pause();
+            }
         }
     }
 }
-document.addEventListener('keydown', releaseArrow2);
 
 //Game Start Button && Count down numbers
 function startNewGame (){
