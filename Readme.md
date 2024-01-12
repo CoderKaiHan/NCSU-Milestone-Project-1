@@ -1,7 +1,27 @@
+Please feel free to fork and improve this game. 
 
-Game idea: 
+
+Some bugs I need help with:
+
+-Press 's' and 'ArrowDown' at the same time till invalidate 'd' key.
+
+-There is a stutter happening to one player when the other player starts to press a new key.
+
+-Player2 and Player2 can't release arrows at the same time.
+
+
+Developer contact information:
+hankai0418@gmail.com
+
+
+
+
+
+
+
+
+<!-- Game idea: 
 -Two-player archery dueling game
-<!-- -Player can can maneuver, adjust arrow power and angle, and release arrows by using keyboard & mouse. -->
 -Player can can maneuver and release arrows by using keyboard
 -Simple version & difficult version
 
@@ -11,13 +31,10 @@ Todo:
 -set character and npc
 -set bow and arrow
 -release arrow
-<!-- -adjust arrow angle -->
 
 (Difficult version)
 -arrow hit feedback
 -make it two-players
-<!-- -adjust arrow power
--add visual display of arrow angle and power -->
 -allow player mobility 
 
 (Others)
@@ -38,9 +55,4 @@ Assets:
 -1 standing block
 -backgournd images and music
 -other objects
--riding animals & machines
-
-
-
-Developer contact information:
-hankai0418@gmail.com
+-riding animals & machines -->
