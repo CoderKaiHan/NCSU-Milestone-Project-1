@@ -37,27 +37,27 @@ document.addEventListener('keyup', function (event) {
 });
 
 function handleKeyDown(event, player, moveKeys){
-    // const validKeys = (player === 'player1') ? ['w', 's'] : ['ArrowUp', 'ArrowDown'];
-    
+
     let validKeys;
 
     if (player === 'player1') {
         validKeys = ['w', 'W','s','S','d','D'];
-    } else {
+        if (validKeys.includes(event.key) && newGame === true) {
+            moveKeys[event.key] = true;
+            playersControls(event, player);
+            releaseArrow1(event, player);
+        }
+    }else{
         validKeys = ['ArrowUp', 'ArrowDown','ArrowLeft'];
-    }
-
-    if (validKeys.includes(event.key)) {
-        moveKeys[event.key] = true;
-        playersControls(event, player);
-    }
-
-    releaseArrow1(event, player);
-    releaseArrow2(event, player);
+        if (validKeys.includes(event.key) && newGame === true) {
+            moveKeys[event.key] = true;
+            playersControls(event, player);
+            releaseArrow2(event, player);
+        }
+    } 
 }
 
 function handleKeyUp(event, player, moveKeys) {
-    // const validKeys = (player === 'player1') ? ['w', 's'] : ['ArrowUp', 'ArrowDown'];
     
     let validKeys;
 
@@ -123,7 +123,7 @@ function playersControls (event) {
 
 //player1 release arrow function
 function releaseArrow1(event,player){
-    if(player === 'player1' && (event.key === 'd' || event.key === 'D')){
+    if(player === 'player1' && (event.key === 'd' || event.key === 'D') && newGame === true){
         //Get player1 current top position
         const player1CurrentTop = parseInt(player1.style.top);
         const player1CurrentLeft = parseInt(player1.style.left);
@@ -150,7 +150,7 @@ function releaseArrow1(event,player){
                     arrow1DectectsTargets(arrow1,arrow1CurrentLeft,arrow1CurrentTop); 
                     setTimeout(moveArrow, getShootSpeed())
                 }else{
-                    arrow1.style.display = 'none';
+                    arrow1.remove();
                 }
             }
 
@@ -179,7 +179,7 @@ function getShootSpeed(){
 
 //player2 release arrow function
 function releaseArrow2 (event,player){
-    if (player === 'player2' && (event.key === 'ArrowLeft')) {
+    if (player === 'player2' && (event.key === 'ArrowLeft' && newGame === true)) {
         //Get player1 current top position
         const player2CurrentTop = parseInt(player2.style.top);
         const player2CurrentLeft = parseInt(player2.style.left);
@@ -205,7 +205,7 @@ function releaseArrow2 (event,player){
                     arrow2DectectsTargets(arrow2,arrow2CurrentLeft,arrow2CurrentTop); 
                     setTimeout(moveArrow, getShootSpeed())
                 }else{
-                    arrow2.style.display = 'none';
+                    arrow2.remove();
                 }
             }
 
@@ -283,8 +283,8 @@ function appendTargets (){
 
     const player1Left = parseInt(player1.style.left);
     const player2Left = parseInt(player2.style.left);  
-    const minLeft = player1Left + 40;
-    const maxLeft = player2Left - 60;
+    const minLeft = player1Left + 120;
+    const maxLeft = player2Left - 120;
     //max and min height needs to be improved. They should calculated based on playArea height, score boards height, player hight and dragon height.
     const targetsMinTop = 100;
     const targetsMaxTop = 520;
@@ -347,9 +347,9 @@ function arrow1DectectsTargets (arrow1,arrow1Left,arrow1Top){
                 player1Score = player1Score + targetsPoints;
             }
             targetsArray.splice(i,1);
+            arrow1.remove();
             playArea.removeChild(targets);
-            arrow1.style.display = 'none';
-            targetsPointsDisplay.style.display = 'none';
+            targetsPointsDisplay.remove();
 
             const hitTargetsSound = document.createElement('audio');
         
@@ -387,9 +387,9 @@ function arrow2DectectsTargets (arrow2,arrow2Left,arrow2Top){
                 player2Score = player2Score + targetsPoints;
             }
             targetsArray.splice(i,1);
+            arrow2.remove();
             playArea.removeChild(targets);
-            arrow2.style.display = 'none';
-            targetsPointsDisplay.style.display = 'none';
+            targetsPointsDisplay.remove();
 
             const hitTargetsSound = document.createElement('audio');
         
