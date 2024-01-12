@@ -11,7 +11,7 @@ Some bugs I need help with:
 
 
 Developer contact information:
-hankai0418@gmail.com
+hankaicoder@gmail.com
 
 
 
